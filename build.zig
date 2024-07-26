@@ -14,34 +14,49 @@ fn build_language(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std
     defer arena.deinit();
     const alloc = arena.allocator();
 
-    const basedir = try std.fmt.allocPrint(alloc, "tree-sitter-{s}", .{lang});
-    const srcdir = try std.fs.path.join(alloc, &.{ basedir, "src" });
-    const querydir = try std.fs.path.join(alloc, &.{ basedir, "queries" });
+    const depname = try std.fmt.allocPrint(alloc, "tree-sitter-{s}", .{lang});
+    const dep = b.dependency(depname, .{ .target = target, .optimize = optimize });
 
-    const query_file_name = try std.fmt.allocPrint(alloc, "{s}-highlights.scm", .{basedir});
+    const srcdir = "src";
+    const querydir = "queries";
+
     const query_file = try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" });
+    const save_query_file = try std.fmt.allocPrint(alloc, "{s}-highlights.scm", .{depname});
+
     const parser = try std.fs.path.join(alloc, &.{ srcdir, "parser.c" });
     const scanner = try std.fs.path.join(alloc, &.{ srcdir, "scanner.c" });
     const scanner_cc = try std.fs.path.join(alloc, &.{ srcdir, "scanner.cc" });
 
     const lib = b.addSharedLibrary(.{
-        .name = basedir,
+        .name = depname,
         .target = target,
         .optimize = optimize,
     });
 
-    lib.addCSourceFiles(.{ .files = &.{parser}, .flags = &flags });
+    lib.addCSourceFiles(.{
+        .root = dep.path("."),
+        .files = &.{parser},
+        .flags = &flags,
+    });
     lib.linkLibC();
 
     if (exists(b, scanner)) {
-        lib.addCSourceFiles(.{ .files = &.{scanner}, .flags = &flags });
+        lib.addCSourceFiles(.{
+            .root = dep.path("."),
+            .files = &.{scanner},
+            .flags = &flags,
+        });
     }
 
     if (exists(b, scanner_cc)) {
-        lib.addCSourceFiles(.{ .files = &.{scanner_cc}, .flags = &flags });
+        lib.addCSourceFiles(.{
+            .root = dep.path("."),
+            .files = &.{scanner_cc},
+            .flags = &flags,
+        });
     }
 
-    const install_file = b.addInstallFile(b.path(query_file), query_file_name);
+    const install_file = b.addInstallFile(dep.path(query_file), save_query_file);
     install_file.dir = .lib;
 
     const install_lib = b.addInstallArtifact(lib, .{});
@@ -49,12 +64,20 @@ fn build_language(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std
     b.getInstallStep().dependOn(&install_file.step);
 }
 
+const LangName = enum {
+    zig,
+    c,
+    pub fn toString(s: LangName) []const u8 {
+        return @tagName(s);
+    }
+};
+
 pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    if (b.option([]const u8, "lang", "Build a language extension.")) |lang| {
-        try build_language(b, target, optimize, lang);
+    if (b.option(LangName, "lang", "Build a language extension.")) |lang| {
+        try build_language(b, target, optimize, lang.toString());
         return;
     }
 

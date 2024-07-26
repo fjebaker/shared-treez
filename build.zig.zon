@@ -6,6 +6,14 @@
             .url = "https://github.com/ziglibs/treez/archive/main.tar.gz",
             .hash = "122070dab8241fb4523c77666f225159876da1eb40b04ce9069262cf9ef9c8d1d03b",
         },
+        .@"tree-sitter-zig" = .{
+            .url = "https://github.com/maxxnino/tree-sitter-zig/archive/main.tar.gz",
+            .hash = "1220806e8fd2c17753c98bf7bc180ff0d23cd6005ecca28046fb2510a590dfd9e927",
+        },
+        .@"tree-sitter-c" = .{
+            .url = "https://github.com/tree-sitter/tree-sitter-c/archive/master.tar.gz",
+            .hash = "1220a1ace6e055ec67e0df091c1b093aa779a3f9f6c3be682dc7767385b6a891895c",
+        },
     },
     .paths = .{
         "build.zig",
