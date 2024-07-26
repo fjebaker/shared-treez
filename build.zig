@@ -1,7 +1,10 @@
 const std = @import("std");
 
 fn exists(b: *std.Build, path: []const u8) bool {
-    std.fs.cwd().access(b.pathFromRoot(path), .{ .mode = .read_only }) catch return false;
+    std.fs.cwd().access(
+        b.pathFromRoot(path),
+        .{ .mode = .read_only },
+    ) catch return false;
     return true;
 }
 
@@ -9,7 +12,12 @@ const flags = [_][]const u8{
     "-fno-sanitize=undefined",
 };
 
-fn build_language(b: *std.Build, target: std.Build.ResolvedTarget, optimize: std.builtin.OptimizeMode, lang: []const u8) !void {
+fn build_language(
+    b: *std.Build,
+    target: std.Build.ResolvedTarget,
+    optimize: std.builtin.OptimizeMode,
+    lang: []const u8,
+) !void {
     var arena = std.heap.ArenaAllocator.init(b.allocator);
     defer arena.deinit();
     const alloc = arena.allocator();
@@ -76,8 +84,22 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    if (b.option(LangName, "lang", "Build a language extension.")) |lang| {
+    const lang_opt = b.option(LangName, "lang", "Build a language extension.");
+    const all_opt = b.option(bool, "all", "Build all language extensions.");
+
+    if (lang_opt) |lang| {
         try build_language(b, target, optimize, lang.toString());
+    }
+
+    if (all_opt) |all| {
+        if (all) {
+            for (std.meta.fieldNames(LangName)) |name| {
+                try build_language(b, target, optimize, name);
+            }
+        }
+    }
+
+    if (lang_opt != null or all_opt != null) {
         return;
     }
 
@@ -91,38 +113,15 @@ pub fn build(b: *std.Build) !void {
         .{ .target = target, .optimize = optimize },
     );
 
-    const exe = b.addExecutable(.{
-        .name = "zig-syntax-test",
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-    exe.root_module.addImport("treez", treez);
-
-    exe.linkLibC();
-    exe.linkLibrary(tree_sitter_dep.artifact("tree-sitter"));
-
-    b.installArtifact(exe);
-
-    const run_cmd = b.addRunArtifact(exe);
-
-    run_cmd.step.dependOn(b.getInstallStep());
-
-    if (b.args) |args| {
-        run_cmd.addArgs(args);
-    }
-
-    const run_step = b.step("run", "Run the app");
-    run_step.dependOn(&run_cmd.step);
-
-    const exe_unit_tests = b.addTest(.{
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-
-    const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
-
-    const test_step = b.step("test", "Run unit tests");
-    test_step.dependOn(&run_exe_unit_tests.step);
+    const mod = b.addModule(
+        "treez-shared",
+        .{
+            .root_source_file = b.path("src/root.zig"),
+            .target = target,
+            .optimize = optimize,
+        },
+    );
+    mod.addImport("treez", treez);
+    mod.linkLibrary(tree_sitter_dep.artifact("tree-sitter"));
+    mod.link_libc = true;
 }
