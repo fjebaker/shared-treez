@@ -1,6 +1,6 @@
 .{
-    .name = "zig-syntax-test",
-    .version = "0.0.0",
+    .name = "shared-treez",
+    .version = "0.0.1",
     .dependencies = .{
         .treez = .{
             .url = "https://github.com/ziglibs/treez/archive/main.tar.gz",
@@ -13,6 +13,10 @@
         .@"tree-sitter-c" = .{
             .url = "https://github.com/tree-sitter/tree-sitter-c/archive/master.tar.gz",
             .hash = "1220a1ace6e055ec67e0df091c1b093aa779a3f9f6c3be682dc7767385b6a891895c",
+        },
+        .@"tree-sitter-bash" = .{
+            .url = "https://github.com/tree-sitter/tree-sitter-bash/archive/master.tar.gz",
+            .hash = "12208275caf10fa7bf64e85ed72dfd2a60e225d4379998e45515ae2330b4fcbc0b71",
         },
     },
     .paths = .{
