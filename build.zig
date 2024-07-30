@@ -2,7 +2,6 @@ const std = @import("std");
 
 fn exists(b: *std.Build, path: []const u8) bool {
     const abs_path = b.path(path).getPath(b);
-    std.debug.print("Checking: {s}\n", .{abs_path});
     std.fs.accessAbsolute(
         abs_path,
         .{ .mode = .read_only },
@@ -67,24 +66,19 @@ fn build_language(
     });
     lib.linkLibC();
 
-    if (exists(b, scanner)) {
+    if (exists(dep.builder, scanner)) {
         lib.addCSourceFiles(.{
             .root = dep.path("."),
             .files = &.{scanner},
             .flags = &flags,
         });
-    } else if (exists(b, scanner_cc)) {
+    }
+    if (exists(dep.builder, scanner_cc)) {
         lib.addCSourceFiles(.{
             .root = dep.path("."),
             .files = &.{scanner_cc},
             .flags = &flags,
         });
-    } else {
-        try std.io.getStdErr().writer().print(
-            "Could not find scanner.c for '{s}':\n - {s}\n - {s}\n",
-            .{ lang, scanner, scanner_cc },
-        );
-        return error.NoScannerSrc;
     }
 
     if (static) {
@@ -215,7 +209,7 @@ pub fn build(b: *std.Build) !void {
     );
 
     const mod = b.addModule(
-        "treez-shared",
+        "shared-treez",
         .{
             .root_source_file = b.path("src/root.zig"),
             .target = target,
