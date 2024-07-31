@@ -15,6 +15,13 @@ const flags = [_][]const u8{
 
 const Highlights = struct { name: []const u8, path: std.Build.LazyPath };
 
+const highlight_lang_map = std.StaticStringMap([]const u8).initComptime(
+    &.{
+        .{ "julia", "extra/julia-highlights.scm" },
+        .{ "bash", "extra/bash-highlights.scm" },
+    },
+);
+
 fn build_language(
     b: *std.Build,
     static: bool,
@@ -35,7 +42,10 @@ fn build_language(
     const srcdir = "src";
     const querydir = "queries";
 
-    const query_file = try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" });
+    const query_file_lazy_path = if (highlight_lang_map.get(lang)) |path|
+        b.path(path)
+    else
+        dep.path(try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" }));
     const save_query_file = try std.fmt.allocPrint(
         alloc,
         "{s}-highlights.scm",
@@ -83,12 +93,12 @@ fn build_language(
 
     if (static) {
         return .{
-            .hl = .{ .name = lang, .path = dep.path(query_file) },
+            .hl = .{ .name = lang, .path = query_file_lazy_path },
             .lib = lib,
         };
     } else {
         const install_file = b.addInstallFile(
-            dep.path(query_file),
+            query_file_lazy_path,
             save_query_file,
         );
         install_file.dir = .lib;
@@ -102,6 +112,7 @@ fn build_language(
 pub const LanguageExtension = enum {
     bash,
     c,
+    julia,
     zig,
 };
 
