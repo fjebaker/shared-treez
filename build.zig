@@ -19,6 +19,12 @@ const highlight_lang_map = std.StaticStringMap([]const u8).initComptime(
     &.{
         .{ "julia", "extra/julia-highlights.scm" },
         .{ "bash", "extra/bash-highlights.scm" },
+        .{ "xml", "/queries/xml/highlights.scm" },
+    },
+);
+const src_dir_map = std.StaticStringMap([]const u8).initComptime(
+    &.{
+        .{ "xml", "xml/src" },
     },
 );
 
@@ -39,13 +45,15 @@ fn build_language(
     const depname = try std.fmt.allocPrint(alloc, "tree-sitter-{s}", .{lang});
     const dep = b.dependency(depname, .{ .target = target, .optimize = optimize });
 
-    const srcdir = "src";
+    const srcdir = if (src_dir_map.get(lang)) |path| path else "src";
     const querydir = "queries";
 
-    const query_file_lazy_path = if (highlight_lang_map.get(lang)) |path|
-        b.path(path)
-    else
-        dep.path(try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" }));
+    const query_file_lazy_path = if (highlight_lang_map.get(lang)) |path| block: {
+        if (path[0] == '/') {
+            break :block dep.path(path[1..]);
+        }
+        break :block b.path(path);
+    } else dep.path(try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" }));
     const save_query_file = try std.fmt.allocPrint(
         alloc,
         "{s}-highlights.scm",
@@ -69,6 +77,7 @@ fn build_language(
             .optimize = optimize,
         });
 
+    lib.addIncludePath(dep.path(srcdir));
     lib.addCSourceFiles(.{
         .root = dep.path("."),
         .files = &.{parser},
@@ -114,6 +123,7 @@ pub const LanguageExtension = enum {
     c,
     julia,
     zig,
+    xml,
 };
 
 pub const ExtensionType = enum { shared, dynamic, static };

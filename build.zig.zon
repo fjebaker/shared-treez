@@ -22,6 +22,10 @@
             .url = "https://github.com/tree-sitter/tree-sitter-julia/archive/master.tar.gz",
             .hash = "1220b5202acc61de926b27634d96f9a4b557a6f84226703c7f984755c192db440a66",
         },
+        .@"tree-sitter-xml" = .{
+            .url = "https://github.com/tree-sitter-grammars/tree-sitter-xml/archive/master.tar.gz",
+            .hash = "12202518867e6a09650059ec37ac88c54a447521bea5aa201a2d3f383ec7aac6bf0a",
+        },
     },
     .paths = .{
         "build.zig",
