@@ -8,23 +8,23 @@
         },
         .@"tree-sitter-zig" = .{
             .url = "https://github.com/maxxnino/tree-sitter-zig/archive/main.tar.gz",
-            .hash = "1220806e8fd2c17753c98bf7bc180ff0d23cd6005ecca28046fb2510a590dfd9e927",
+            .hash = "12206ccd464fbf96131b23b964dcb135cbae47c301de620c26b65fc66526ed56b2c8",
         },
         .@"tree-sitter-c" = .{
             .url = "https://github.com/tree-sitter/tree-sitter-c/archive/master.tar.gz",
-            .hash = "1220a1ace6e055ec67e0df091c1b093aa779a3f9f6c3be682dc7767385b6a891895c",
+            .hash = "1220f617a55dd4b4aa6b48ecf9eea46b07da9e95cc52732141eabae131e1be848094",
         },
         .@"tree-sitter-bash" = .{
             .url = "https://github.com/tree-sitter/tree-sitter-bash/archive/master.tar.gz",
-            .hash = "12208275caf10fa7bf64e85ed72dfd2a60e225d4379998e45515ae2330b4fcbc0b71",
+            .hash = "1220e5f57de3c4b08647a76c073923957f13621b5d082be89ce52bb3a83fb7841043",
         },
         .@"tree-sitter-julia" = .{
             .url = "https://github.com/tree-sitter/tree-sitter-julia/archive/master.tar.gz",
-            .hash = "1220b5202acc61de926b27634d96f9a4b557a6f84226703c7f984755c192db440a66",
+            .hash = "12209e7599c77fe1bcfb6227c5a1c023cdb9aa579cffe99fff9d56796728d5387d30",
         },
         .@"tree-sitter-xml" = .{
             .url = "https://github.com/tree-sitter-grammars/tree-sitter-xml/archive/master.tar.gz",
-            .hash = "12202518867e6a09650059ec37ac88c54a447521bea5aa201a2d3f383ec7aac6bf0a",
+            .hash = "12203a0e283798222bd61eefb876da378e0cae2469ba2680d07ece4a90885286a421",
         },
     },
     .paths = .{

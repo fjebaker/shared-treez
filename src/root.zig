@@ -34,7 +34,7 @@ pub fn load_language_extension(
     dir: std.fs.Dir,
     l: LanguageExtension,
 ) !LanguageSpec {
-    inline for (@typeInfo(options).Struct.decls) |f| {
+    inline for (@typeInfo(options).@"struct".decls) |f| {
         if (@field(options, f.name)) {
             const func = @extern(?*TreeSitterFn, .{ .name = "tree_sitter_" ++ f.name }).?;
             if (std.mem.eql(u8, f.name, l.name)) {

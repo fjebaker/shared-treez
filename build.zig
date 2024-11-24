@@ -164,7 +164,7 @@ pub fn build(b: *std.Build) !void {
 
     if (all_opt) {
         b.lib_dir = ext_dir;
-        inline for (@typeInfo(LanguageExtension).Enum.fields) |f| {
+        inline for (@typeInfo(LanguageExtension).@"enum".fields) |f| {
             const name = f.name;
             const l = try build_language(
                 b,
@@ -179,7 +179,7 @@ pub fn build(b: *std.Build) !void {
             options.addOption(bool, name, sym_avail);
         }
     } else {
-        inline for (@typeInfo(LanguageExtension).Enum.fields) |f| {
+        inline for (@typeInfo(LanguageExtension).@"enum".fields) |f| {
             const name = f.name;
             const opt = b.option(
                 bool,
