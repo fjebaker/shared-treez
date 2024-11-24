@@ -47,17 +47,23 @@ fn build_language(
     const srcdir = if (src_dir_map.get(lang)) |path| path else "src";
     const querydir = "queries";
 
-    const query_file_lazy_path = if (highlight_lang_map.get(lang)) |path| block: {
+    const query_file_path = if (highlight_lang_map.get(lang)) |path| block: {
         if (path[0] == '/') {
-            break :block dep.path(path[1..]);
+            break :block path[1..];
         }
-        break :block b.path(path);
-    } else dep.path(try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" }));
+        break :block path;
+    } else try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" });
+
     // make sure the file actually exists
-    try dep.builder.build_root.handle.access(
-        query_file_lazy_path.getPath3(dep.builder, null).sub_path,
+    dep.builder.build_root.handle.access(
+        query_file_path,
         .{},
-    );
+    ) catch |err| {
+        std.log.default.err("Failed to build extension for {s}", .{lang});
+        return err;
+    };
+
+    const query_file_lazy_path = dep.path(query_file_path);
 
     const save_query_file = try std.fmt.allocPrint(
         alloc,
