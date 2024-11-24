@@ -54,6 +54,12 @@ fn build_language(
         }
         break :block b.path(path);
     } else dep.path(try std.fs.path.join(alloc, &.{ querydir, "highlights.scm" }));
+    // make sure the file actually exists
+    try dep.builder.build_root.handle.access(
+        query_file_lazy_path.getPath3(dep.builder, null).sub_path,
+        .{},
+    );
+
     const save_query_file = try std.fmt.allocPrint(
         alloc,
         "{s}-highlights.scm",
