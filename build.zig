@@ -17,7 +17,6 @@ const Highlights = struct { name: []const u8, path: std.Build.LazyPath };
 
 const highlight_lang_map = std.StaticStringMap([]const u8).initComptime(
     &.{
-        .{ "bash", "extra/bash-highlights.scm" },
         .{ "xml", "/queries/xml/highlights.scm" },
     },
 );
