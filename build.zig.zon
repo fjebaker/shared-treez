@@ -1,14 +1,15 @@
 .{
-    .name = "shared-treez",
+    .name = .shared_treez,
+    .fingerprint = 0x136e3a1347a39a80,
     .version = "0.0.1",
     .dependencies = .{
         .treez = .{
-            .url = "https://github.com/ziglibs/treez/archive/main.tar.gz",
-            .hash = "122070dab8241fb4523c77666f225159876da1eb40b04ce9069262cf9ef9c8d1d03b",
+            .url = "https://github.com/fjebaker/treez/archive/main.tar.gz",
+            .hash = "treez-0.1.0-WqpqHLGbAABsslGCvrjFVnHQGmSdYvXZrZS5fric3lpa",
         },
         .@"tree-sitter-zig" = .{
             .url = "https://github.com/maxxnino/tree-sitter-zig/archive/main.tar.gz",
-            .hash = "12206ccd464fbf96131b23b964dcb135cbae47c301de620c26b65fc66526ed56b2c8",
+            .hash = "N-V-__8AADLAWgBszUZPv5YTGyO5ZNyxNcuuR8MB3mIMJrZf",
         },
         .@"tree-sitter-c" = .{
             .url = "https://github.com/tree-sitter/tree-sitter-c/archive/master.tar.gz",
