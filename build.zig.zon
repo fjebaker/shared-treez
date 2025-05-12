@@ -27,6 +27,14 @@
             .url = "https://github.com/tree-sitter-grammars/tree-sitter-xml/archive/master.tar.gz",
             .hash = "12203a0e283798222bd61eefb876da378e0cae2469ba2680d07ece4a90885286a421",
         },
+        .@"tree-sitter-python" = .{
+            .url = "https://github.com/tree-sitter/tree-sitter-python/archive/master.tar.gz",
+            .hash = "12203fb155f02bec81fa4e8f4ab95cc9beebcc001ff8cb2dc26f67f4fe6085916a6d",
+        },
+        .@"tree-sitter-diff" = .{
+            .url = "https://github.com/the-mikedavis/tree-sitter-diff/archive/main.tar.gz",
+            .hash = "1220a23ad30b82eb88da6d8b79a922af13eb9d8305d2d28b55c82b6ecabe98c9070b",
+        },
     },
     .paths = .{
         "build.zig",

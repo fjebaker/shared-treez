@@ -131,9 +131,11 @@ fn build_language(
 pub const LanguageExtension = enum {
     bash,
     c,
+    diff,
     julia,
-    zig,
+    python,
     xml,
+    zig,
 };
 
 pub const ExtensionType = enum { shared, dynamic, static };
