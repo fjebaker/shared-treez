@@ -1,7 +1,7 @@
 const std = @import("std");
-const treez = @import("treez");
 const options = @import("options");
-pub usingnamespace treez;
+
+pub const treez = @import("treez");
 
 pub const LanguageExtension = struct {
     name: []const u8,
@@ -10,7 +10,7 @@ pub const LanguageExtension = struct {
     highlight_path: ?[]const u8 = null,
 };
 
-pub const LanguageInitFn = *const fn () callconv(.C) ?*const treez.Language;
+pub const LanguageInitFn = *const fn () callconv(.c) ?*const treez.Language;
 
 pub const LanguageSpec = struct {
     allocator: std.mem.Allocator,
@@ -65,10 +65,11 @@ pub fn dynamic_load_language_extension(
         "libtree-sitter-{s}.so",
         .{l.name},
     );
-    const func_symbol = l.function_symbol orelse try std.fmt.allocPrintZ(
+    const func_symbol = l.function_symbol orelse try std.fmt.allocPrintSentinel(
         alloc,
         "tree_sitter_{s}",
         .{l.name},
+        0,
     );
 
     var lib = try std.DynLib.open(try dir.realpathAlloc(alloc, lib_name));

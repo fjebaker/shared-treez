@@ -4,8 +4,8 @@
     .version = "0.0.1",
     .dependencies = .{
         .treez = .{
-            .url = "https://github.com/fjebaker/treez/archive/main.tar.gz",
-            .hash = "treez-0.1.0-WqpqHLGbAABsslGCvrjFVnHQGmSdYvXZrZS5fric3lpa",
+            .url = "git+https://github.com/fjebaker/treez/#90286bd7e0db898127b11ae9845d1129c28eccbd",
+            .hash = "treez-0.1.0-WqpqHKSbAAAFFw2_UofUXIrMDizPRbycxttoNo8jJgvH",
         },
         .@"tree-sitter-zig" = .{
             .url = "https://github.com/maxxnino/tree-sitter-zig/archive/main.tar.gz",

@@ -74,18 +74,14 @@ fn build_language(
     const scanner = try std.fs.path.join(alloc, &.{ srcdir, "scanner.c" });
     const scanner_cc = try std.fs.path.join(alloc, &.{ srcdir, "scanner.cc" });
 
-    const lib = if (static)
-        b.addStaticLibrary(.{
-            .name = depname,
-            .target = target,
+    const lib = b.addLibrary(.{
+        .name = depname,
+        .root_module = b.createModule(.{
             .optimize = optimize,
-        })
-    else
-        b.addSharedLibrary(.{
-            .name = depname,
             .target = target,
-            .optimize = optimize,
-        });
+        }),
+        .linkage = if (static) .static else .dynamic,
+    });
 
     lib.addIncludePath(dep.path(srcdir));
     lib.addCSourceFiles(.{
@@ -168,11 +164,11 @@ pub fn build(b: *std.Build) !void {
     const options = b.addOptions();
     const sym_avail = ext_how != .dynamic;
 
-    var ext_libs = std.ArrayList(*std.Build.Step.Compile).init(b.allocator);
-    defer ext_libs.deinit();
+    var ext_libs = std.ArrayList(*std.Build.Step.Compile).empty;
+    defer ext_libs.deinit(b.allocator);
 
-    var highlights = std.ArrayList(Highlights).init(b.allocator);
-    defer highlights.deinit();
+    var highlights = std.ArrayList(Highlights).empty;
+    defer highlights.deinit(b.allocator);
 
     if (all_opt) {
         b.lib_dir = ext_dir;
@@ -186,8 +182,8 @@ pub fn build(b: *std.Build) !void {
                 name,
             );
 
-            try ext_libs.append(l.lib);
-            if (l.hl) |hl| try highlights.append(hl);
+            try ext_libs.append(b.allocator, l.lib);
+            if (l.hl) |hl| try highlights.append(b.allocator, hl);
             options.addOption(bool, name, sym_avail);
         }
     } else {
@@ -208,8 +204,8 @@ pub fn build(b: *std.Build) !void {
                     name,
                 );
 
-                try ext_libs.append(l.lib);
-                if (l.hl) |hl| try highlights.append(hl);
+                try ext_libs.append(b.allocator, l.lib);
+                if (l.hl) |hl| try highlights.append(b.allocator, hl);
             }
             options.addOption(bool, name, opt and sym_avail);
         }
@@ -217,11 +213,14 @@ pub fn build(b: *std.Build) !void {
 
     if (ext_only) {
         if (ext_how == .shared) {
-            const lib = b.addSharedLibrary(.{
+            const lib = b.addLibrary(.{
                 .name = "lang-ext",
-                .link_libc = true,
-                .target = target,
-                .optimize = optimize,
+                .root_module = b.createModule(.{
+                    .target = target,
+                    .optimize = optimize,
+                    .link_libc = true,
+                }),
+                .linkage = .dynamic,
             });
             for (ext_libs.items) |l| {
                 lib.linkLibrary(l);
@@ -237,7 +236,7 @@ pub fn build(b: *std.Build) !void {
     );
     const treez = treez_dep.module("treez");
     const tree_sitter_dep = treez_dep.builder.dependency(
-        "tree-sitter",
+        "tree_sitter",
         .{ .target = target, .optimize = optimize },
     );
 
