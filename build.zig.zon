@@ -8,32 +8,32 @@
             .hash = "treez-0.1.0-WqpqHKSbAAAFFw2_UofUXIrMDizPRbycxttoNo8jJgvH",
         },
         .@"tree-sitter-zig" = .{
-            .url = "https://github.com/maxxnino/tree-sitter-zig/archive/main.tar.gz",
+            .url = "git+https://github.com/maxxnino/tree-sitter-zig/#a80a6e9be81b33b182ce6305ae4ea28e29211bd5",
             .hash = "N-V-__8AADLAWgBszUZPv5YTGyO5ZNyxNcuuR8MB3mIMJrZf",
         },
         .@"tree-sitter-c" = .{
-            .url = "https://github.com/tree-sitter/tree-sitter-c/archive/master.tar.gz",
-            .hash = "1220f617a55dd4b4aa6b48ecf9eea46b07da9e95cc52732141eabae131e1be848094",
+            .url = "git+https://github.com/tree-sitter/tree-sitter-c/#ae19b676b13bdcc13b7665397e6d9b14975473dd",
+            .hash = "N-V-__8AANxPSADtRZNZbKidAJYnL1fypqkbR-SuTdd7NtGk",
         },
         .@"tree-sitter-bash" = .{
-            .url = "https://github.com/tree-sitter/tree-sitter-bash/archive/master.tar.gz",
-            .hash = "1220e5f57de3c4b08647a76c073923957f13621b5d082be89ce52bb3a83fb7841043",
+            .url = "git+https://github.com/tree-sitter/tree-sitter-bash/#20f55fb9663568f16ebceaac7673d2aa530add46",
+            .hash = "N-V-__8AAMpjowDJwLV60zDF5rWvTF_-K_TF6Wbt3Io1fy8w",
         },
         .@"tree-sitter-julia" = .{
-            .url = "https://github.com/tree-sitter/tree-sitter-julia/archive/master.tar.gz",
-            .hash = "12209e7599c77fe1bcfb6227c5a1c023cdb9aa579cffe99fff9d56796728d5387d30",
+            .url = "git+https://github.com/tree-sitter/tree-sitter-julia/#73d1539a51b8a202d6d2471cc594cf4d7c5e673f",
+            .hash = "N-V-__8AABaSvgIIhZfae7u2WRic7oAO4Kw-ATCCZNNZRw3P",
         },
         .@"tree-sitter-xml" = .{
-            .url = "https://github.com/tree-sitter-grammars/tree-sitter-xml/archive/master.tar.gz",
-            .hash = "12203a0e283798222bd61eefb876da378e0cae2469ba2680d07ece4a90885286a421",
+            .url = "git+https://github.com/tree-sitter-grammars/tree-sitter-xml/#863dbc381f44f6c136a399e684383b977bb2beaa",
+            .hash = "N-V-__8AAE6gCgDxs135RkGdn3ScUEZC9tIrx05xkB2akdpL",
         },
         .@"tree-sitter-python" = .{
-            .url = "https://github.com/tree-sitter/tree-sitter-python/archive/master.tar.gz",
-            .hash = "12203fb155f02bec81fa4e8f4ab95cc9beebcc001ff8cb2dc26f67f4fe6085916a6d",
+            .url = "git+https://github.com/tree-sitter/tree-sitter-python/#26855eabccb19c6abf499fbc5b8dc7cc9ab8bc64",
+            .hash = "N-V-__8AAOiqPgC9tH5tYSAYNsMWLoPiSxcmkHvIhMnezomx",
         },
         .@"tree-sitter-diff" = .{
-            .url = "https://github.com/the-mikedavis/tree-sitter-diff/archive/main.tar.gz",
-            .hash = "1220a23ad30b82eb88da6d8b79a922af13eb9d8305d2d28b55c82b6ecabe98c9070b",
+            .url = "git+https://github.com/the-mikedavis/tree-sitter-diff/#e42b8def4f75633568f1aecfe01817bf15164928",
+            .hash = "N-V-__8AALjvEgCiOtMLguuI2m2LeakirxPrnYMF0tKLVcgr",
         },
     },
     .paths = .{
