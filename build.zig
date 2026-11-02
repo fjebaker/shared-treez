@@ -1,11 +1,11 @@
 const std = @import("std");
 
 fn exists(b: *std.Build, path: []const u8) bool {
-    const abs_path = b.path(path).getPath(b);
-    std.fs.accessAbsolute(
-        abs_path,
+    b.build_root.handle.access(
+        path,
         .{ .mode = .read_only },
-    ) catch return false;
+    ) catch
+        return false;
     return true;
 }
 
