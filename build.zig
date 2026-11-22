@@ -132,6 +132,8 @@ pub const LanguageExtension = enum {
     python,
     xml,
     zig,
+    make,
+    fortran,
 };
 
 pub const ExtensionType = enum { shared, dynamic, static };

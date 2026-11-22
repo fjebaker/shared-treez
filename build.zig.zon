@@ -35,6 +35,14 @@
             .url = "git+https://github.com/the-mikedavis/tree-sitter-diff/#e42b8def4f75633568f1aecfe01817bf15164928",
             .hash = "N-V-__8AALjvEgCiOtMLguuI2m2LeakirxPrnYMF0tKLVcgr",
         },
+        .@"tree-sitter-make" = .{
+            .url = "git+https://github.com/alemuller/tree-sitter-make#a4b9187417d6be349ee5fd4b6e77b4172c6827dd",
+            .hash = "N-V-__8AAB4iEgDn7PWAc-c9l9asJ3qCITVcj9KLYIOWJXLq",
+        },
+        .@"tree-sitter-fortran" = .{
+            .url = "git+https://github.com/stadelmanma/tree-sitter-fortran#d05165a6f0bd044ba1f89865927a752dd5168e66",
+            .hash = "N-V-__8AAM7FRwIaV8YryyeqSEHIdLFr1yCHJdUQKTdZUS1A",
+        },
     },
     .paths = .{
         "build.zig",
